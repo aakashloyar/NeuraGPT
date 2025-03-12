@@ -1,16 +1,19 @@
-"use client"
 import { Sidebar } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
-
+import {Textarea} from "@/components/textarea"
 export default function Home() {
 
   return (
     <div className="">
-      <div className="p-4 flex-1">
+      <div className="">
         <p>Main Content Here</p>
       </div>
-      <footer className="fixed bottom-0 left-0 w-full bg-slate-100 text-slate-600 text-center py-2">
-        © NeuraGPT can make mistakes | All rights reserved.
+      <footer className="fixed bottom-0 w-full">
+        <div className='flex justify-center'>
+          <Textarea/>
+        </div>
+        <div className='bg-slate-100 text-sm text-slate-600 text-center py-2'>
+          © NeuraGPT can make mistakes | All rights reserved.
+        </div>
       </footer>
     </div>
   );
