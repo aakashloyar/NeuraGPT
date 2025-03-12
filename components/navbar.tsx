@@ -5,7 +5,7 @@ import {Button} from '@/components/ui/button'
 export default function() {
     const router = useRouter();
     function handleLog() {
-        router.push('/signin');
+        router.push('api/auth/signin');
     }
     return (
         <div className='w-full h-14 bg-slate-200 flex justify-between items-center'>
