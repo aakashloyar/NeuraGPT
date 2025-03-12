@@ -1,9 +1,9 @@
 import Image from "next/image";
-
+import {Button} from '@/components/ui/button'
 export default function Home() {
   return (
-    <div className='text-white bg-black h-14'>
-      hfhkgj
+    <div className='pt-2 px-2'>
     </div>
+    
   );
 }
