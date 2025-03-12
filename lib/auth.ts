@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import Google from "next-auth/providers/google"
+import {prisma} from "@/lib/primsa"
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
   session: {
@@ -7,23 +8,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     maxAge: 24 * 60 * 60, 
   },
   callbacks: {
+    async signIn({user,account}) {
+      if(!user.email) return false;
+      const existingUser = await prisma.user.findUnique({
+        where: { email: user.email },
+      });
+      if (!existingUser) {
+        await prisma.user.create({
+          data: {
+            email: user.email,
+          },
+        });
+      }
+      return true;
+    },
     async jwt({ token, user }) {
-      console.log("jwt Start ******")
-      console.log(token);
-      console.log('Gap');
-      console.log(user);
-      console.log("jwt end");
       if (user) {
         token.id = user.id;
       }
       return token;
     },
     async session({ session, token }) {
-      console.log('session start****')
-      console.log(session);
-      console.log('Gap');
-      console.log(token);
-      console.log("session end");
       if(token.id) {
         session.user = {
           ...session.user,
