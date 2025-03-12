@@ -21,7 +21,9 @@ export function Dropdown() {
             
             <DropdownMenu>
                 <DropdownMenuTrigger>
-                    {session.data?.user?.image && <Image className="rounded-full" src={session.data.user.image} alt="User Profile" width={40} height={40} />}
+                    <div className='cursor-pointer'>
+                       {session.data?.user?.image && <Image className="rounded-full" src={session.data.user.image} alt="User Profile" width={40} height={40} />}
+                    </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
