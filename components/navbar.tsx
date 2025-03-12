@@ -7,9 +7,6 @@ export default function() {
     function handleLog() {
         router.push('/signin');
     }
-    function NeuraaiClick() {
-        router.push('/');
-    }
     return (
         <div className='w-full h-14 bg-slate-200 flex justify-between items-center'>
             <div className='pl-2 font-bold'>
