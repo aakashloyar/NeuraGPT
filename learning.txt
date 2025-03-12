@@ -1,0 +1,1 @@
+@@index([id]) ***not required to put index on primary key automatically added
