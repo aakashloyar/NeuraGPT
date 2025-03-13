@@ -8,6 +8,10 @@ export async function POST(req:NextRequest) {
         const chat=await prisma.chat.create({
             data: {
                 userId:userId
+            },
+            select:{
+                id:true,
+                createdAt:true
             }
         })
         return NextResponse.json({message:chat},{status:200});
