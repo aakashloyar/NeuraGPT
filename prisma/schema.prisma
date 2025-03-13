@@ -37,6 +37,6 @@ model Message {
   question    String
   answer      String
   createdAt   DateTime @default(now())
-  user        Chat     @relation("ChatMessages",fields:[chatId], references: [id],onDelete:Cascade)
+  chat        Chat     @relation("ChatMessages",fields:[chatId], references: [id],onDelete:Cascade)
   @@index([chatId]) 
 }
