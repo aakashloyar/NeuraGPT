@@ -10,7 +10,7 @@ export async function POST(req:NextRequest) {
                 userId:userId
             }
         })
-        return NextResponse.json({message:chat.id},{status:200});
+        return NextResponse.json({message:chat},{status:200});
     } catch(err) {
         return NextResponse.json({error:err},{status:500})
     }
