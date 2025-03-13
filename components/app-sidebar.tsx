@@ -22,6 +22,7 @@ import {
         where:{userId:session.user.id}
       })
     }
+    console.log(chats);
     return (
       <Sidebar>
         <SidebarHeader>
@@ -39,7 +40,7 @@ import {
                     <SidebarMenuItem key={chat.id} >
                       <SidebarMenuButton asChild>
                           <Link href={chat.id} className="flex items-center w-full group">
-                              <span>{chat.id}</span>
+                              <span>{chat.title}</span>
                           </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
