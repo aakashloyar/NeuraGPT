@@ -1,3 +1,7 @@
+import {prisma} from "@/lib/primsa"
+import { auth } from '@/lib/auth';
+import Link from "next/link";
+import {Button} from "@/components/ui/button"
 import {
   Sidebar,
   SidebarHeader,
@@ -10,29 +14,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   } from "@/components/ui/sidebar"
-  const items = [
-    {
-      title: "Home",
-      url: "#",
-    },
-    {
-      title: "Inbox",
-      url: "#",
-    },
-    {
-      title: "Calendar",
-      url: "#",
-    },
-    {
-      title: "Search",
-      url: "#",
-    },
-    {
-      title: "Settings",
-      url: "#",
-    },
-  ]
-  export function AppSidebar() {
+  export async function AppSidebar() {
+    const session=await auth();
+    let chats=null;
+    if(session &&session.user && session.user.id) {
+        chats=await prisma.chat.findMany({
+        where:{userId:session.user.id}
+      })
+    }
     return (
       <Sidebar>
         <SidebarHeader>
@@ -42,18 +31,21 @@ import {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup />
-            <SidebarGroupLabel>Application</SidebarGroupLabel>
+            <SidebarGroupLabel>Chats</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                {chats!=null &&
+                  chats.map((chat) => (
+                    <SidebarMenuItem key={chat.id} >
+                      <SidebarMenuButton asChild>
+                          <Link href={chat.id} className="flex items-center w-full group">
+                              <span>{chat.id}</span>
+                          </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))
+                }
+                
               </SidebarMenu>
             </SidebarGroupContent>
 
