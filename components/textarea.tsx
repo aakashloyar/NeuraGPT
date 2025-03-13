@@ -15,7 +15,7 @@ export function Textarea() {
         try{
             const res=await axios.post("/api/chat/new")
             if(res.status==200) {
-                return router.push(`/chat/${res.data.message}`);
+                return router.push(`/chat/${res.data.message.id}`);
             }
         } catch(error){
             return router.push('/');
@@ -30,7 +30,6 @@ export function Textarea() {
     return (
         <div className='border border-slate-200 shadow-lg shadow-slate-300 rounded-2xl w-1/2'>
             <div className='w-full'>
-                {/* {console.log('happening again')} */}
                 <textarea  className='w-full h-24 focus:outline-none px-2 py-1'
                    name="textarea" 
                    id="textarea" 
