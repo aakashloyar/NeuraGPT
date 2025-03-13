@@ -5,7 +5,7 @@ export default function() {
         <div className='w-full h-14 bg-slate-200 flex justify-between items-center'>
             <div className='pl-2 font-bold'>
                 <Link href="/" className="text-xl cursor-pointer">
-                   NeuraAI
+                   NeuraGPT
                 </Link>
             </div>
             <div className='pr-2'>
