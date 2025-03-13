@@ -1,11 +1,13 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import {AppSidebar} from "@/components/app-sidebar"
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import {Providers} from './provider'
 import "./globals.css";
 import Navbar from '@/components/navbar'
 import {Textarea} from "@/components/textarea"
+import {prisma} from "@/lib/primsa"
+import { auth } from '@/lib/auth';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -21,11 +23,23 @@ export const metadata: Metadata = {
   description: "LLM like chatGPT",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+    const session=await auth();
+    let chats=null;
+    if(session &&session.user && session.user.id) {
+        chats=await prisma.chat.findMany({
+        where:{userId:session.user.id},
+        select:{
+          id:true,
+          title:true,
+          createdAt:true
+        }
+      })
+    }
   return (
     <html lang="en">
       <body
@@ -34,7 +48,7 @@ export default function RootLayout({
       <Providers>
   
         <SidebarProvider>
-          <AppSidebar />
+          <AppSidebar chats={chats||[]}/>
           <main className="flex flex-col w-full">
             <div className='flex flex-start border'>
               <div>

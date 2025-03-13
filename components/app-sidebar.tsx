@@ -1,7 +1,7 @@
 import {prisma} from "@/lib/primsa"
-import { auth } from '@/lib/auth';
 import Link from "next/link";
 import {Button} from "@/components/ui/button"
+import {ChatType} from "@/lib/validation"
 import {
   Sidebar,
   SidebarHeader,
@@ -14,15 +14,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   } from "@/components/ui/sidebar"
-  export async function AppSidebar() {
-    const session=await auth();
-    let chats=null;
-    if(session &&session.user && session.user.id) {
-        chats=await prisma.chat.findMany({
-        where:{userId:session.user.id}
-      })
-    }
-    console.log(chats);
+  export function AppSidebar({chats}:{chats:ChatType[]}) {
+    
     return (
       <Sidebar>
         <SidebarHeader>
@@ -38,9 +31,9 @@ import {
                 {chats!=null &&
                   chats.map((chat) => (
                     <SidebarMenuItem key={chat.id} >
-                      <SidebarMenuButton asChild>
-                          <Link href={chat.id} className="flex items-center w-full group">
-                              <span>{chat.title}</span>
+                      <SidebarMenuButton asChild >
+                          <Link href={chat.id} >
+                            <span className="">{chat.title}</span>
                           </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
