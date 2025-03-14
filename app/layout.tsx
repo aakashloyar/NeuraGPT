@@ -48,7 +48,7 @@ export default async function RootLayout({
       <Providers>
   
         <SidebarProvider>
-          <AppSidebar chats={chats||[]}/>
+          <AppSidebar initChats={chats||[]}/>
           <main className="flex flex-col w-full">
             <div className='flex flex-start border'>
               <div>
