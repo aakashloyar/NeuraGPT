@@ -3,10 +3,12 @@ import { useRouter,usePathname } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
 import axios from "axios"
+import { useChatStore } from "@/store/chatStore";
 export function Textarea() {
     const router=useRouter();
     const pathname =usePathname();
     const [text, setText] = useState("");
+    const addChat = useChatStore((state) => state.addChat); 
     function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
       setText(event.target.value);
     }
@@ -15,6 +17,8 @@ export function Textarea() {
         try{
             const res=await axios.post("/api/chat/new")
             if(res.status==200) {
+                console.log(res.data.message.id,res.data.message.title)
+                addChat(res.data.message);
                 return router.push(`/chat/${res.data.message.id}`);
             }
         } catch(error){

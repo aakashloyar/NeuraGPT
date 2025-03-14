@@ -1,7 +1,11 @@
+"use client"
 import {prisma} from "@/lib/primsa"
 import Link from "next/link";
 import {Button} from "@/components/ui/button"
 import {ChatType} from "@/lib/validation"
+import { useChatStore } from '@/store/chatStore';
+import { useEffect } from "react";
+
 import {
   Sidebar,
   SidebarHeader,
@@ -14,8 +18,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   } from "@/components/ui/sidebar"
-  export function AppSidebar({chats}:{chats:ChatType[]}) {
-    
+  export function AppSidebar({initChats}:{initChats:ChatType[]}) {
+    const chats = useChatStore((state) => state.chats);
+    const setChats = useChatStore((state) => state.setChats); // New function
+    useEffect(() => {
+      if (initChats.length > 0) {
+        setChats(initChats);
+      }
+    }, []);
     return (
       <Sidebar>
         <SidebarHeader>
@@ -33,7 +43,7 @@ import {
                     <SidebarMenuItem key={chat.id} >
                       <SidebarMenuButton asChild >
                           <Link href={chat.id} >
-                            <span className="">{chat.title}</span>
+                            <span className="">{chat.id}</span>
                           </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
