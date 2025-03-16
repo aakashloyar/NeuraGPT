@@ -46,7 +46,7 @@ export default function ChatComponent() {
         <div
           key={message.id}
           ref={index === messages.length - 1 ? lastMessageRef : null}
-          className="p-4 border-b border-2 border-b-black px-20"
+          className="p-4 border-b border-2 border-b-black px-8"
         >
           <div className="font-bold text-lg text-slate-700">#: {message.question}</div>
           <div className="pl-8 pt-4">
