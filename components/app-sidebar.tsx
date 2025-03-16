@@ -5,7 +5,8 @@ import { ChatType } from "@/lib/validation";
 import { useChatStore } from "@/store/chatStore";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns"; // To format dates easily
+import { format } from "date-fns"; 
+import { useHistoryStore } from "@/store/historyStore";
 import {
   Sidebar,
   SidebarHeader,
@@ -22,9 +23,11 @@ import {
 export function AppSidebar({ initChats }: { initChats: ChatType[] }) {
   const chats = useChatStore((state) => state.chats);
   const setChats = useChatStore((state) => state.setChats);
+  const clearHistory = useHistoryStore((state) => state.clearHistory);
   const router = useRouter();
 
   async function handleNewChat() {
+    clearHistory(); 
     router.push(`/`);
   }
 
@@ -34,9 +37,8 @@ export function AppSidebar({ initChats }: { initChats: ChatType[] }) {
     }
   }, []);
 
-  // Group chats by date
   const groupedChats = chats.reduce((acc, chat) => {
-    const date = format(new Date(chat.createdAt), "MMMM dd, yyyy"); // Format as "March 16, 2025"
+    const date = format(new Date(chat.createdAt), "MMMM dd, yyyy"); 
     if (!acc[date]) acc[date] = [];
     acc[date].push(chat);
     return acc;
@@ -55,10 +57,7 @@ export function AppSidebar({ initChats }: { initChats: ChatType[] }) {
               size="sm"
               className="cursor-pointer relative group"
             >
-              +
-              <span className="absolute left-full ml-2 px-2 py-1 bg-gray-700 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity">
-                New Chat
-              </span>
+              + New Chat
             </Button>
           </SidebarGroupLabel>
           <SidebarGroupContent>
