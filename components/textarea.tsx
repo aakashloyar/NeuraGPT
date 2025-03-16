@@ -4,32 +4,41 @@ import { useState } from "react";
 import Image from "next/image";
 import axios from "axios"
 import { useChatStore } from "@/store/chatStore";
+import { useMessageStore } from "@/store/messageStore";
+import {Newchat} from "@/actions/chat/new"
 export function Textarea() {
     const router=useRouter();
     const pathname =usePathname();
     const [text, setText] = useState("");
-    const addChat = useChatStore((state) => state.addChat); 
+    const addChat = useChatStore((state) => state.addChat);
+    const addMessage = useMessageStore((state) => state.addMessages);  
     function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
       setText(event.target.value);
     }
 
     async function chatInitiate() {
-        try{
-            const res=await axios.post("/api/chat/new")
-            if(res.status==200) {
-                console.log(res.data.message.id,res.data.message.title)
-                addChat(res.data.message);
-                return router.push(`/chat/${res.data.message.id}`);
-            }
-        } catch(error){
-            return router.push('/');
+        const chat=await Newchat();
+        if(chat==null) {
+            router.push('/');
+            return null;
         }
+        addChat(chat);
+        router.push(`/chat/${chat.id}`);
+        return chat.id;
     }
     async function handleClick() {
-        console.log(pathname)
-        if(pathname=="/") {
-            await chatInitiate();
-        }
+        var chatId=null;
+        if(pathname=="/") chatId=await chatInitiate();
+        else chatId=pathname.split('/')[2];
+        if(chatId==null) return;
+
+        const res=await axios.post(`/api/chat/${chatId}`,{
+            question:text
+        });
+        if(res.status==200) {
+            addMessage(res.data.message);  
+            setText("");
+        } 
     }
     return (
         <div className='border border-slate-200 shadow-lg shadow-slate-300 rounded-2xl w-1/2'>
@@ -38,6 +47,7 @@ export function Textarea() {
                    name="textarea" 
                    id="textarea" 
                    placeholder='Ask Anything'
+                   value={text}
                    onChange={handleChange}
                 >
                 </textarea>
