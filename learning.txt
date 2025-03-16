@@ -1,1 +1,11 @@
 @@index([id]) ***not required to put index on primary key automatically added
+
+
+export async function GET(req: NextRequest) {
+    console.log("88888********");
+    const url = req.nextUrl.pathname;
+    console.log(url.split("/")[3]);
+    return NextResponse.json({message:[]},{status:200});
+  }
+
+  on server one method to get path url 
