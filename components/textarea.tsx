@@ -30,14 +30,13 @@ export function Textarea() {
         var chatId=null;
         if(pathname=="/") chatId=await chatInitiate();
         else chatId=pathname.split('/')[2];
+        setText("");
         if(chatId==null) return;
-
         const res=await axios.post(`/api/chat/${chatId}`,{
             question:text
         });
         if(res.status==200) {
             addMessage(res.data.message);  
-            setText("");
         } 
     }
     return (
@@ -52,7 +51,7 @@ export function Textarea() {
                 >
                 </textarea>
             </div>
-            <div className='flex justify-end px-2 pb-1 mt-1'>
+            <div className='flex justify-end px-2 pb-1 mt-1 '>
                 <button className={`p-1 rounded-lg ${text.length < 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"}`} 
                     disabled={text.length < 1}
                     onClick={handleClick}>
