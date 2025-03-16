@@ -42,7 +42,7 @@ import {
                     <SidebarMenuItem key={chat.id} >
                       <SidebarMenuButton asChild >
                           <Link href={`/chat/${chat.id}`} >
-                            <span className="">{chat.id}</span>
+                            <span className="">{chat.title}</span>
                           </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
