@@ -53,9 +53,9 @@ export default async function RootLayout({
         <SidebarProvider>
           <AppSidebar initChats={chats||[]}/>
           <main className="flex flex-col w-full">
-            <div className='sticky w-full'>
+            <div className='sticky top-0 w-full'>
                <Navbar/>
-              </div>
+            </div>
             <div className="mb-52" > {children}</div>
             <footer className="fixed bottom-0 w-full z-40 bg-white">
             <hr className="border-t-1 border-gray-400 mb-2 mt-1 mx-4"  />
