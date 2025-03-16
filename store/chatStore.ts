@@ -7,6 +7,7 @@ interface ChatState {
   addChat: (chat: ChatType) => void;
   clearChats: () => void;
   deleteChat: (id: string) => void;
+  updateChatTitle: (chatId: string, newTitle: string) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -18,6 +19,12 @@ export const useChatStore = create<ChatState>((set) => ({
     set((state) => ({
       chats: state.chats.filter((chat) => chat.id !== id)
     })),
+    updateChatTitle: (chatId, newTitle) =>
+      set((state) => ({
+        chats: state.chats.map((chat) =>
+          chat.id === chatId ? { ...chat, title: newTitle } : chat
+        ),
+      })),
 
   clearChats: () => set({ chats: [] }), 
 }));
