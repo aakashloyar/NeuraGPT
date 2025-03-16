@@ -7,13 +7,15 @@ export async function POST(req: NextRequest) {
     if (!session || !session.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     const url = req.nextUrl.pathname;
     const chatId=url.split("/")[3];
-    if (!chatId) return NextResponse.json({ error: "Chat ID is required" }, { status: 400 });
+    if (!chatId||!await prisma.chat.findFirst({where:{id:chatId}})) {
+        return NextResponse.json({ message: "Chat ID not found" }, { status: 404 });
+    }
     try {
         const body = await req.json();
         const { question } = body;
         if (!question) return NextResponse.json({ error: "Question is required" }, { status: 400 });
         const result = await model.generateContent(question);
-        const answer = result.response.text();
+        const answer = result.response.text().trim();
         const message = await prisma.message.create({
             data: {
                 chatId,
@@ -21,7 +23,6 @@ export async function POST(req: NextRequest) {
                 answer,
             },
         });
-        console.log(message);
         return NextResponse.json({ message:message }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
@@ -35,7 +36,9 @@ export async function GET(req: NextRequest) {
     if (!session || !session.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     const url = req.nextUrl.pathname;
     const chatId=url.split("/")[3];
-    if (!chatId) return NextResponse.json({ error: "Chat ID is required" }, { status: 400 });
+    if (!chatId ||!await prisma.chat.findFirst({where:{id:chatId}})) {
+        return NextResponse.json({ error: "Chat ID is required" }, { status: 400 });
+    }
     try {
         const messages = await prisma.message.findMany({
             where: { chatId },
