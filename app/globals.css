@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+/* @import "prism-themes/themes/prism-vsc-dark-plus.css"; */
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
@@ -123,4 +123,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.parent-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.md-editor-container {
+  flex-grow: 1;
+  overflow-y: auto;
 }
