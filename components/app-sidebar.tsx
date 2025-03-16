@@ -6,6 +6,7 @@ import { useChatStore } from "@/store/chatStore";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns"; 
+import { useMessageStore } from "@/store/messageStore";
 import { useHistoryStore } from "@/store/historyStore";
 import {
   Sidebar,
@@ -23,11 +24,13 @@ import {
 export function AppSidebar({ initChats }: { initChats: ChatType[] }) {
   const chats = useChatStore((state) => state.chats);
   const setChats = useChatStore((state) => state.setChats);
+  const setMessages = useMessageStore((state) => state.setMessages);
   const clearHistory = useHistoryStore((state) => state.clearHistory);
   const router = useRouter();
 
   async function handleNewChat() {
     clearHistory(); 
+    setMessages([])
     router.push(`/`);
   }
 
