@@ -21,6 +21,12 @@ export function Textarea() {
   function handleChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setText(event.target.value);
   }
+  function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (event.key === "Enter" && !event.shiftKey && text.trim().length > 0) {
+      event.preventDefault(); // Prevent newline in textarea
+      handleClick(); // Call send message function
+    }
+  }
 
   async function chatInitiate() {
     const chat = await Newchat();
@@ -39,14 +45,13 @@ export function Textarea() {
     setText("");
     if (!chatId) return;
 
-    const history = getHistory; // Fetch last 10 messages
+    const history = getHistory; 
     const res = await axios.post(`/api/chat/${chatId}`, { question: text, history });
 
     if (res.status === 200) {
       addMessage(res.data.message);
       addHistory({ question: res.data.message.question, answer: res.data.message.answer });
 
-      // If it's the first message, update the chat title
       if (history.length === 0 && res.data.title) {
         updateChatTitle(chatId, res.data.title);
       }
@@ -63,6 +68,7 @@ export function Textarea() {
           placeholder="Ask Anything"
           value={text}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
       </div>
       <div className="flex justify-end px-2 pb-1 mt-1">
