@@ -51,15 +51,16 @@ export default async function RootLayout({
           <AppSidebar initChats={chats||[]}/>
           <main className="flex flex-col w-full">
             <div className='flex flex-start border'>
-              <div>
+              {/* <div className="">
               <SidebarTrigger />
-              </div>
+              </div> */}
               <div className='w-full'>
                <Navbar/>
               </div>
             </div>
-            {children}
-            <footer className="fixed bottom-0 w-full">
+            <div className="mb-52 mt-8" > {children}</div>
+            <footer className="fixed bottom-0 w-full z-40 bg-white">
+            <hr className="border-t-1 border-gray-400 mb-2 mt-1 mx-4"  />
               <div className='flex justify-center'>
                 <Textarea/>
               </div>
