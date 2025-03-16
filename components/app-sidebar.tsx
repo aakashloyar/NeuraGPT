@@ -5,7 +5,6 @@ import {Button} from "@/components/ui/button"
 import {ChatType} from "@/lib/validation"
 import { useChatStore } from '@/store/chatStore';
 import { useEffect } from "react";
-
 import {
   Sidebar,
   SidebarHeader,
@@ -20,7 +19,7 @@ import {
   } from "@/components/ui/sidebar"
   export function AppSidebar({initChats}:{initChats:ChatType[]}) {
     const chats = useChatStore((state) => state.chats);
-    const setChats = useChatStore((state) => state.setChats); // New function
+    const setChats = useChatStore((state) => state.setChats);
     useEffect(() => {
       if (initChats.length > 0) {
         setChats(initChats);
@@ -42,7 +41,7 @@ import {
                   chats.map((chat) => (
                     <SidebarMenuItem key={chat.id} >
                       <SidebarMenuButton asChild >
-                          <Link href={chat.id} >
+                          <Link href={`/chat/${chat.id}`} >
                             <span className="">{chat.id}</span>
                           </Link>
                       </SidebarMenuButton>
