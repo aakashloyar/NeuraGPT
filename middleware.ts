@@ -6,16 +6,19 @@ export async function middleware(req: NextRequest) {
 
   const { pathname } = req.nextUrl;
 
-  if (!token && pathname === "/") {
+  if (!token && pathname==="/") {
     return NextResponse.redirect(new URL("/api/auth/signin", req.url));
   }
 
   if (token && pathname === "/api/auth/signin") {
     return NextResponse.redirect(new URL("/", req.url));
   }
+  if(!token &&pathname.startsWith("/chat")) {
+    return NextResponse.redirect(new URL("/api/auth/signin", req.url));
+  }
   return NextResponse.next(); 
 }
 
 export const config = {
-  matcher: ["/api/auth/signin", "/"],
+  matcher: ["/api/auth/signin", "/","/chat/:path","/chat"],
 };
