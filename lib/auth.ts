@@ -43,6 +43,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      return `${baseUrl}/`;
+    },
   },
+  
   secret:process.env.NEXT_AUTH_SECRET
 })

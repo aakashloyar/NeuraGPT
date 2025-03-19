@@ -67,11 +67,9 @@ export function AppSidebar({ initChats }: { initChats: ChatType[] }) {
             <SidebarMenu>
               {Object.entries(groupedChats).map(([date, chats]) => (
                 <div key={date}>
-                  {/* Date Section */}
                   <div className="text-gray-500 text-sm font-semibold my-2 ">
                     {date}
                   </div>
-                  {/* Chats under this date */}
                   {chats.map((chat) => (
                     <SidebarMenuItem key={chat.id}>
                       <SidebarMenuButton asChild>

@@ -23,8 +23,8 @@ export function Textarea() {
   }
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (event.key === "Enter" && !event.shiftKey && text.trim().length > 0) {
-      event.preventDefault(); // Prevent newline in textarea
-      handleClick(); // Call send message function
+      event.preventDefault(); 
+      handleClick(); 
     }
   }
 
@@ -40,11 +40,13 @@ export function Textarea() {
   }
 
   async function handleClick() {
-    let chatId = pathname === "/" ? await chatInitiate() : pathname.split("/")[2];
-
+    console.log("*********");
+    console.log(pathname);
+    if(pathname==="/") await chatInitiate();
+    let chatId = pathname.split("/")[2];
+    console.log(pathname);
     setText("");
     if (!chatId) return;
-
     const history = getHistory; 
     const res = await axios.post(`/api/chat/${chatId}`, { question: text, history });
 

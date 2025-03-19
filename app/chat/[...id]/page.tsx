@@ -14,12 +14,14 @@ export default function ChatComponent() {
   const {clearHistory, addHistory } = useHistoryStore(); 
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
   const [bad, setBad] = useState<boolean>(false);
-
+  console.log("Hi")
   useEffect(() => {
+    console.log(id+"*********");
     if (!id) return;
 
     const fetchChat = async () => {
       try {
+        console.log("inside*********************");
         setMessages([]);
         clearHistory();
         const res = await axios.get(`/api/chat/${id}`);
@@ -41,7 +43,7 @@ export default function ChatComponent() {
 
     fetchChat();
   }, [id]);
-
+  console.log("done");
   useEffect(() => {
     if (lastMessageRef.current) {
       lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
