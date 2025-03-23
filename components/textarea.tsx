@@ -42,8 +42,8 @@ export function Textarea() {
   async function handleClick() {
     console.log("*********");
     console.log(pathname);
-    if(pathname==="/") await chatInitiate();
-    let chatId = pathname.split("/")[2];
+    let chatId:string|null=pathname.split("/")[2];
+    if(pathname==="/") chatId=await chatInitiate();
     console.log(pathname);
     setText("");
     if (!chatId) return;
