@@ -8,7 +8,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     maxAge: 24 * 60 * 60, 
   },
   callbacks: {
-    async signIn({user,account}) {
+    async signIn({user}) {
       if(!user.email) return false;
       const existingUser = await prisma.user.findUnique({
         where: { email: user.email },
@@ -43,10 +43,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
       return session;
     },
-    async redirect({ url, baseUrl }) {
+    async redirect({baseUrl }) {
       return `${baseUrl}/`;
     },
   },
   
-  secret:process.env.NEXT_AUTH_SECRET
+  secret:process.env.NEXT_AUTH_SECRET,
+  trustHost: true, // ✅ Allows localhost authentication
+
 })
